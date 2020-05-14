@@ -1,12 +1,12 @@
-import app from 'nexus'
-import '../../graphql/schema'
+import app from 'nexus';
+import '../../graphql/schema';
 
 app.settings.change({
-  server: {
-    path: '/api/graphql',
-  },
-})
+    server: {
+        path: '/api/graphql',
+    },
+});
 
-app.assemble()
+app.assemble();
 
-export default app.server.handlers.playground
+export default app.server.handlers.playground;
