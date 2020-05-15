@@ -1,14 +1,26 @@
-import { schema } from 'nexus';
+import { schema, use } from 'nexus';
+import { prisma } from 'nexus-plugin-prisma';
 
-console.log('URL = ', process.env.DATABASE_URL);
+use(prisma());
+
+schema.objectType({
+    name: 'Todo',
+    definition(t) {
+        t.model.id();
+        t.model.description();
+    },
+});
 
 schema.queryType({
     definition(t) {
-        t.field('ping', {
-            type: 'String',
-            async resolve(_root, _args, _ctx) {
-                return 'Pong!';
-            },
-        });
+        t.crud.todos();
+        t.string('ping', () => 'Pong!');
+    },
+});
+
+schema.mutationType({
+    definition(t) {
+        t.crud.createOneTodo();
+        t.crud.deleteOneTodo();
     },
 });
