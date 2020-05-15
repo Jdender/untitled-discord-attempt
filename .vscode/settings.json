@@ -6,6 +6,8 @@
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "files.exclude": {
-        "**/node_modules": true
+        "**/node_modules": true,
+        "**/.vercel": true,
+        "**/.next": true
     }
 }

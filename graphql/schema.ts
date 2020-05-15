@@ -4,7 +4,7 @@ schema.queryType({
     definition(t) {
         t.field('ping', {
             type: 'String',
-            async resolve(_root, args, ctx) {
+            async resolve(_root, _args, _ctx) {
                 return 'Pong!';
             },
         });
