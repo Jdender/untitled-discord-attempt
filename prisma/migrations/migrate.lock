@@ -4,3 +4,5 @@
 # Read more about conflict resolution here: TODO
 
 20200515104446-add-todo-type
+20200515113201-change-todo-id-to-cuid
+20200515113759
