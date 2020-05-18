@@ -8,6 +8,7 @@
     "files.exclude": {
         "**/node_modules": true,
         "**/.vercel": true,
-        "**/.next": true
+        "**/.next": true,
+        "**/.generated": true,
     }
 }

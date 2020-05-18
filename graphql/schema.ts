@@ -1,7 +1,11 @@
-import { schema, use } from 'nexus';
+import { settings, schema, use } from 'nexus';
 import { prisma } from 'nexus-plugin-prisma';
 
 use(prisma());
+
+settings.change({
+    schema: { generateGraphQLSDLFile: './.generated/schema.gql' },
+});
 
 schema.interfaceType({
     name: 'Node',

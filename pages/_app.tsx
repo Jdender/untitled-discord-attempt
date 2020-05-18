@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/react-hooks';
-import { withData, WithDataProps } from '../client-util/withData';
+import { withData, WithDataProps } from '../util/withData';
 
 const App: FC<AppProps & WithDataProps> = ({
     Component,

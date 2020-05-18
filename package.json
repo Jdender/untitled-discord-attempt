@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "nexus build && next build",
+    "build": "nexus build && yarn reflect:client && next build",
     "start": "next start",
     "prisma:save": "prisma migrate save --experimental",
     "prisma:up": "prisma migrate up --experimental",
-    "graphql:reflect": "graphql-codegen --config codegen.yml",
-    "nexus:reflect": "nexus dev --reflection --entrypoint pages/api/graphql.ts",
-    "nexus:check": "nexus build --entrypoint pages/api/graphql.ts && nexus build --entrypoint pages/api/playground.ts"
+    "reflect:client": "graphql-codegen --config codegen.yml",
+    "reflect:server": "nexus dev --reflection --entrypoint pages/api/graphql.ts"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",

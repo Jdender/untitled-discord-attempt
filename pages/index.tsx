@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useTodosQuery } from '../client-util/generated';
+import { useTodosQuery } from '../.generated/hooks';
 
 const Index: FC = () => {
     const { data, loading, error } = useTodosQuery();
