@@ -18,10 +18,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const httpLink = new HttpLink({
     fetch,
-    uri:
-        process.env.NODE_ENV === 'production'
-            ? 'http://localhost/api/graphql'
-            : 'http://localhost:3000/api/graphql',
+    uri: '/api/graphql',
 });
 
 export const withData = withApollo(
