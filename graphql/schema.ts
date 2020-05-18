@@ -22,15 +22,6 @@ schema.objectType({
 schema.queryType({
     definition(t) {
         t.crud.todos();
-        t.field('node', {
-            type: 'Node',
-            args: {
-                id: schema.idArg({ nullable: false }),
-            },
-            resolve(_root, { id }, ctx) {
-                return ctx.db.todo.findOne({ where: { id } });
-            },
-        });
     },
 });
 
