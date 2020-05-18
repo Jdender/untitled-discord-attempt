@@ -5,6 +5,7 @@ module.exports = {
             'warn',
             { argsIgnorePattern: '^_' },
         ],
+        'react/prop-types': 'off', // It doesn't detect use of FC<>
     },
     parser: '@typescript-eslint/parser',
     extends: [
