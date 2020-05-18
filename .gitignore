@@ -24,9 +24,14 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.envrc
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# generated
+client-util/generated.tsx
+
+# development config
 .vercel

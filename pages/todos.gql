@@ -1,0 +1,6 @@
+query Todos {
+    todos {
+        id
+        description
+    }
+}
