@@ -9,8 +9,8 @@ const Index: FC = () => {
 
     return (
         <ul>
-            {data.todos.map((todo, id) => (
-                <li key={id}>{todo.description}</li>
+            {data.todos.map((todo) => (
+                <li key={todo.id ?? ''}>{todo.description}</li>
             ))}
         </ul>
     );
