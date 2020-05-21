@@ -1,0 +1,8 @@
+query Entries {
+    serverEntries {
+        id
+        name
+        icon
+        features
+    }
+}

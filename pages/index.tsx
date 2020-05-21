@@ -1,21 +1,20 @@
 import React, { FC } from 'react';
-import { useTodosQuery } from '../.generated/hooks';
-import Link from 'next/link';
+import { useEntriesQuery } from '../.generated/hooks';
 
 const Index: FC = () => {
-    const { data, loading, error } = useTodosQuery();
+    const { data, loading, error } = useEntriesQuery();
 
     if (!data || loading) return <p>Loading...</p>;
     if (error) return <p>Error: {JSON.stringify(error)}</p>;
 
     return (
         <div>
-            <Link href="/api/login">
-                <a>Login</a>
-            </Link>
+            <a href="/api/login">Login</a>
             <ul>
-                {data.todos.map((todo) => (
-                    <li key={todo.id ?? ''}>{todo.description}</li>
+                {data.serverEntries.map((entry) => (
+                    <li key={entry.id}>
+                        {entry.name} {entry.features}
+                    </li>
                 ))}
             </ul>
         </div>
