@@ -2,6 +2,7 @@ query Entries {
     serverEntries {
         id
         name
+        description
         icon
         features
     }
