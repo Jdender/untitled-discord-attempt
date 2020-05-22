@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import { Result } from './Result';
 
 const DISCORD_API_ENDPOINT = 'https://discord.com/api/v6';
 
@@ -29,10 +30,7 @@ export interface TokenResponse {
     token_type: string;
 }
 
-export const getToken = async (
-    input: string,
-    type: 'grant' | 'refresh',
-): Promise<TokenResponse | null> => {
+export const getToken = (input: string, type: 'grant' | 'refresh') => {
     const body = new URLSearchParams();
 
     body.set('client_id', OAUTH_ID);
@@ -54,33 +52,26 @@ export const getToken = async (
         }[type],
     );
 
-    try {
-        return await (
-            await fetch(`${DISCORD_API_ENDPOINT}/oauth2/token`, {
-                method: 'POST',
-                body,
-            })
-        ).json();
-    } catch (e) {
-        console.error(e);
-        return null;
-    }
+    return Result.fromTryAsync(() =>
+        fetch(`${DISCORD_API_ENDPOINT}/oauth2/token`, {
+            method: 'POST',
+            body,
+        })
+            .then((res) => res.json())
+            .then((body) => body as TokenResponse),
+    );
 };
 
-const fetchDiscord = async (uri: string, token: string): Promise<unknown> => {
-    try {
-        return await (
-            await fetch(`${DISCORD_API_ENDPOINT}${uri}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-        ).json();
-    } catch (e) {
-        console.error(e);
-        return null;
-    }
-};
+const fetchDiscord = <T>(uri: string, token: string) =>
+    Result.fromTryAsync(() =>
+        fetch(`${DISCORD_API_ENDPOINT}${uri}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((res) => res.json())
+            .then((body) => body as T),
+    );
 
 export interface UserResponse {
     id: string;
@@ -96,7 +87,7 @@ export interface UserResponse {
 }
 
 export const getUser = (token: string) =>
-    fetchDiscord('/users/@me', token) as Promise<UserResponse | null>;
+    fetchDiscord<UserResponse>('/users/@me', token);
 
 export interface GuildResponse {
     id: string;
@@ -108,4 +99,4 @@ export interface GuildResponse {
 }
 
 export const getGuilds = (token: string) =>
-    fetchDiscord('/users/@me/guilds', token) as Promise<GuildResponse[] | null>;
+    fetchDiscord<GuildResponse[]>('/users/@me/guilds', token);
