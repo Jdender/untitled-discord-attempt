@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import { Result } from './Result';
+import { Result } from './generic/Result';
 
 const DISCORD_API_ENDPOINT = 'https://discord.com/api/v6';
 

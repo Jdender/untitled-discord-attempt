@@ -1,14 +1,27 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
+const RESULT_HOLE: unknown = Symbol('RESULT_HOLE');
+
+enum ResultType {
+    Okay,
+    Err,
+}
+
 export class ResultExpectError extends Error {}
 
-export abstract class Result<T, E> {
+export class Result<T, E> {
+    private constructor(
+        private __kind: ResultType,
+        private __value: T,
+        private __error: E,
+    ) {}
+
     static Okay<T, E>(value: T): Result<T, E> {
-        return Okay.Okay(value);
+        return new Result(ResultType.Okay, value, RESULT_HOLE as E);
     }
 
     static Err<T, E>(error: E): Result<T, E> {
-        return Err.Err(error);
+        return new Result(ResultType.Err, RESULT_HOLE as T, error);
     }
 
     public static fromTry<T, E>(fn: () => T): Result<T, E> {
@@ -29,44 +42,26 @@ export abstract class Result<T, E> {
         }
     }
 
-    public isOkay(): this is Okay<T> {
-        return this instanceof Okay;
+    public isOkay() {
+        return this.__kind === ResultType.Okay;
     }
 
-    public isErr(): this is Err<E> {
-        return this instanceof Err;
+    public isErr() {
+        return this.__kind === ResultType.Err;
     }
 
     public expect(message?: string) {
-        if (this.isOkay()) return this.value;
+        if (this.isOkay()) return this.__value;
         throw new ResultExpectError(message);
     }
 
     public unwrapOr(or: T) {
-        if (this.isOkay()) return this.value;
+        if (this.isOkay()) return this.__value;
         return or;
     }
 
     public map<R>(fn: (t: T) => R): Result<R, E> {
-        if (this.isOkay()) return Result.Okay(fn(this.value));
-        return (this as unknown) as Result<R, E>;
-    }
-}
-
-class Okay<T> extends Result<T, never> {
-    private constructor(public value: T) {
-        super();
-    }
-    static Okay<T, E>(value: T): Result<T, E> {
-        return new Okay(value);
-    }
-}
-
-class Err<E> extends Result<never, E> {
-    constructor(public value: E) {
-        super();
-    }
-    static Err<T, E>(error: E): Result<T, E> {
-        return new Err(error);
+        if (this.isOkay()) return Result.Okay(fn(this.__value));
+        return Result.Err(this.__error);
     }
 }

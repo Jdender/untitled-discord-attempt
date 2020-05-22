@@ -1,5 +1,5 @@
 import { NowRequest, NowResponse } from '@now/node';
-import { ResultExpectError } from './Result';
+import { ResultExpectError } from './generic/Result';
 
 export type RequestHandler = (req: NowRequest, res: NowResponse) => void;
 
