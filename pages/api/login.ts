@@ -1,6 +1,7 @@
 import { getToken, getUser, OAUTH_URL } from '../../util/discord';
 import { PrismaClient } from '@prisma/client';
 import { handleResult } from '../../util/requestHandlers';
+import { expect } from '../../util/generic/Result';
 
 const db = new PrismaClient();
 
@@ -19,6 +20,8 @@ export default handleResult(400, async (req, res) => {
     const userRes = (await getUser(tokenRes.access_token)).expect(
         'Failed to fetch user information.',
     );
+
+    expect(userRes.verified, 'You must have a verified email!');
 
     await db.user.upsert({
         create: {

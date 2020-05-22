@@ -9,6 +9,11 @@ enum ResultType {
 
 export class ResultExpectError extends Error {}
 
+export const expect = <T extends boolean>(test: T, message?: string) => {
+    if (test) return;
+    throw new ResultExpectError(message);
+};
+
 export class Result<T, E> {
     private constructor(
         private __kind: ResultType,
