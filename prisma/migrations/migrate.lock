@@ -7,3 +7,5 @@
 20200515113201-change-todo-id-to-cuid
 20200515113759
 20200521181445-inital-commit
+20200522150034-add-description-to-server-entry
+20200522153702-make-server-entry-icon-optional

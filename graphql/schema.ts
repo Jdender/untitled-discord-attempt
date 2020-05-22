@@ -27,6 +27,7 @@ schema.objectType({
     definition(t) {
         t.implements('Node');
         t.model.name();
+        t.model.description();
         t.model.icon();
         t.model.features();
     },
