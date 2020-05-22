@@ -10,6 +10,16 @@ const App: FC<AppProps & WithDataProps> = ({
 }) => (
     <ApolloProvider client={apollo}>
         <Component {...pageProps} />
+        <style jsx global>{`
+            @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+            :root {
+                font-family: 'Roboto', sans-serif;
+                background-color: #23272a;
+                color: #ffffff;
+                --card-bg: #2c2f33;
+            }
+        `}</style>
     </ApolloProvider>
 );
 
