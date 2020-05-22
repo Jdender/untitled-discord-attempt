@@ -31,9 +31,9 @@ export class Result<T, E> {
 
     public static fromTry<T, E>(fn: () => T): Result<T, E> {
         try {
-            return this.Okay(fn());
+            return Okay(fn());
         } catch (e) {
-            return this.Err(e);
+            return Err(e);
         }
     }
 
@@ -41,9 +41,9 @@ export class Result<T, E> {
         fn: () => Promise<T>,
     ): Promise<Result<T, E>> {
         try {
-            return this.Okay(await fn());
+            return Okay(await fn());
         } catch (e) {
-            return this.Err(e);
+            return Err(e);
         }
     }
 
@@ -66,7 +66,10 @@ export class Result<T, E> {
     }
 
     public map<R>(fn: (t: T) => R): Result<R, E> {
-        if (this.isOkay()) return Result.Okay(fn(this.__value));
-        return Result.Err(this.__error);
+        if (this.isOkay()) return Okay(fn(this.__value));
+        return Err(this.__error);
     }
 }
+
+export const Okay = Result.Okay;
+export const Err = Result.Err;
