@@ -6,11 +6,14 @@ const DISCORD_API_ENDPOINT = 'https://discord.com/api/v6';
 const OAUTH_ID = process.env.DISCORD_OAUTH_ID ?? 'NOT_PROVIDED';
 const OAUTH_SECRET = process.env.DISCORD_OAUTH_SECRET ?? 'NOT_PROVIDED';
 const SCOPE = 'identify email guilds';
+
+// Change redirect depending on dev vs prod
 const REDIRECT_URI =
     process.env.NODE_ENV === 'production'
         ? 'https://untitled-discord-attempt.now.sh/api/login'
         : 'http://localhost:3000/api/login';
 
+// Computed constant
 export const OAUTH_URL = (() => {
     const query = new URLSearchParams();
     query.set('client_id', OAUTH_ID);
@@ -37,25 +40,18 @@ export const getToken = (input: string, type: 'grant' | 'refresh') => {
     body.set('client_secret', OAUTH_SECRET);
     body.set('scope', SCOPE);
     body.set('redirect_uri', REDIRECT_URI);
-    body.set(
-        {
-            grant: 'code',
-            refresh: 'refresh_token',
-        }[type],
-        input,
-    );
+
+    // Options change depending on grant vs refresh
+    body.set(type === 'grant' ? 'code' : 'refresh_token', input);
     body.set(
         'grant_type',
-        {
-            grant: 'authorization_code',
-            refresh: 'refresh_token',
-        }[type],
+        type === 'grant' ? 'authorization_code' : 'refresh_token',
     );
 
     return Result.fromTryAsync(() =>
         fetch(`${DISCORD_API_ENDPOINT}/oauth2/token`, {
             method: 'POST',
-            body,
+            body, // Must be form-url-encoded
         })
             .then((res) => res.json())
             .then((body) => body as TokenResponse),
